@@ -35,6 +35,7 @@ export class UsersService {
                     error: 'A user with this email already exists',
                 };
             }
+            console.log(error);
         }
 
         return { success: false, error: 'An unkowm error occured' };
