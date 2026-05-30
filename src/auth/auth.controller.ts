@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -23,5 +23,11 @@ export class AuthController {
     @Post('signup')
     async signup(@Body() signupDto: UserCreateDto) {
         return await this.usersService.create(signupDto);
+    }
+
+    @Post('logout')
+    async logout(@Req() req: any) {
+        const token = req.headers.authorization?.split(' ')[1];
+        return this.authService.logout(token);
     }
 }
