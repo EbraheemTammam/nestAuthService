@@ -1,8 +1,9 @@
-import { ExecutionContext } from "@nestjs/common";
+import { ExecutionContext, Injectable } from "@nestjs/common";
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
+@Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
     constructor(private readonly reflector: Reflector) {
         super();
