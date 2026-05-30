@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UsersService } from 'src/users/users.service';
 import { UserCreateDto } from 'src/users/dtos/user-create.dto';
+import { PasswordChangeDto } from './dtos/password-change.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,7 @@ export class AuthController {
     @Public()
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    async login(@Request() request) {
+    async login(@Req() request) {
         return await this.authService.login(request.user);
     }
 
@@ -29,5 +30,17 @@ export class AuthController {
     async logout(@Req() req: any) {
         const token = req.headers.authorization?.split(' ')[1];
         return this.authService.logout(token);
+    }
+
+    @Post('change_password')
+    async changePassword(
+        @Req() req: any, 
+        @Body() passwordChangeDto: PasswordChangeDto
+    ) {
+        await this.usersService.changePassword(
+            req.user,
+            passwordChangeDto.oldPassword,
+            passwordChangeDto.newPassword
+        );
     }
 }

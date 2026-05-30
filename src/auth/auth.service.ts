@@ -3,7 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { TokenDto } from './dtos/token.dto';
 import { UserDto } from 'src/users/dtos/user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/schemas/user.schema';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService {
         private readonly redisService: RedisService
     ) { }
 
-    async login(user: Omit<User, 'password'>): Promise<TokenDto> {
+    async login(user: Omit<UserDocument, 'password'>): Promise<TokenDto> {
         const userPaylod: UserDto = { ...user };
         const accessToken = await this.jwtService.signAsync(userPaylod);
 
