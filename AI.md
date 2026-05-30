@@ -15,3 +15,10 @@ this is a walk through AI usage throught the implmentation including agents, pro
 
 **response summary:** comparison about making fake hashing and the downside of consuming resources, making and explicit delay based on a computed process min or average execution time, using rate limiting. \
 **opinion:** response clarifies that using explicit delay is better than fake hashing, alongside with throtteling as a must.
+***
+#### while implementing change password:
+**model:** chatgpt \
+**prompt:** does mongoose schema models reflect mongo id by default?
+
+**response summary:** said it's correct that model is reflecting ObjectId via _id field. \
+**opinion and updates:** answer wasn't a valid one cause _id property is reflected via the hydrated document, not the model.
