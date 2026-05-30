@@ -1,18 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, User } from 'src/../generated/prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { UserCreateDto } from './dtos/user-create.dto';
 import * as argon2 from 'argon2';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        @InjectModel(User.name)
+        private userModel: Model<User>
+    ) {}
     
     async findOne(email: string): Promise<User | null> {
-        return this.prisma.user.findUnique({ where: { email } });
+        return this.userModel.findOne({ email });
     }
 
-    async create(data: UserCreateDto): Promise<{ sucess: boolean, error?: string }> {
+    async create(data: UserCreateDto): Promise<{ success: boolean, error?: string }> {
         try {
             data.password = await argon2.hash(
                 data.password, {
@@ -22,20 +26,18 @@ export class UsersService {
                 }
             );
             
-            await this.prisma.user.create({ data });
-            return { sucess: true };
-        } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-                if (error.code === 'P2002') {
-                    return {
-                        sucess: false,
-                        error: 'A user with this email already exists'
-                    };
-                }
+            await this.userModel.create(data);
+            return { success: true };
+        } catch (error: any) {
+            if (error.code === 11000) {
+                return {
+                    success: false,
+                    error: 'A user with this email already exists',
+                };
             }
         }
 
-        return { sucess: false, error: 'An unkowm error occured' };
+        return { success: false, error: 'An unkowm error occured' };
     }
 
     async verifyPassword(plainTextPassword: string, hashedPassword: string): Promise<boolean> {
