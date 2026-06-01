@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -32,7 +32,7 @@ export class AuthController {
         return this.authService.logout(token);
     }
 
-    @Post('change_password')
+    @Patch('change_password')
     async changePassword(
         @Req() req: any, 
         @Body() passwordChangeDto: PasswordChangeDto
