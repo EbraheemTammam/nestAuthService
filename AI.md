@@ -35,4 +35,4 @@ this is a walk through AI usage throught the implmentation including agents, pro
 **prompt:** write me a multi staged docker file for the app alongside with docker compose and docker ignore for deployment.
 
 **response summary:** detailed docker file, docker compose and docker ignore. \
-**opinion and updates:** a very good one, just needed some updates on hashing algorithm used, endpoints details.
+**opinion and updates:** multi staged docker file just needed to updated the versions of the images.
