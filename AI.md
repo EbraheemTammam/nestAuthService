@@ -22,3 +22,10 @@ this is a walk through AI usage throught the implmentation including agents, pro
 
 **response summary:** said it's correct that model is reflecting ObjectId via _id field. \
 **opinion and updates:** answer wasn't a valid one cause _id property is reflected via the hydrated document, not the model.
+***
+#### while adding readme:
+**model:** claude \
+**prompt:** i've finished an app using nest with mongo using mongoose using jwt and passport for the auth implementing singup, login and change password endpoints, write me a detailed readme on how to work with the repo, like the installation and prerequiests, the run process and the usage and so on.
+
+**response summary:** detailed readme. \
+**opinion and updates:** a very good one, just needed some updates on hashing algorithm used, endpoints details.
