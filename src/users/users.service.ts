@@ -31,10 +31,7 @@ export class UsersService {
             return { success: true };
         } catch (error: any) {
             if (error.code === 11000) {
-                return {
-                    success: false,
-                    error: 'A user with this email already exists',
-                };
+                throw new BadRequestException('A user with this email already exists');
             }
             else console.error(error);
         }
