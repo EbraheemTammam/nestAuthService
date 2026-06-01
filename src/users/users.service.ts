@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { UserCreateDto } from './dtos/user-create.dto';
 import * as argon2 from 'argon2';
 import { InjectModel } from '@nestjs/mongoose';
@@ -31,7 +31,7 @@ export class UsersService {
             return { success: true };
         } catch (error: any) {
             if (error.code === 11000) {
-                throw new BadRequestException('A user with this email already exists');
+                throw new ConflictException('Email already registered');
             }
             else console.error(error);
         }
