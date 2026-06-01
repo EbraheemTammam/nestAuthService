@@ -1,98 +1,399 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🔐 NestJS Authentication API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust RESTful authentication API built with **NestJS**, **MongoDB** (via Mongoose), **JWT**, and **Passport.js**. Supports user registration, login, and password management.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📋 Table of Contents
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the App](#running-the-app)
+- [API Endpoints](#api-endpoints)
+- [Authentication Flow](#authentication-flow)
+- [Project Structure](#project-structure)
+- [Error Handling](#error-handling)
+- [Testing](#testing)
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## Overview
 
-## Compile and run the project
+This API provides a complete authentication system with three core capabilities:
 
-```bash
-# development
-$ npm run start
+- **Sign Up** — register a new user with a hashed password
+- **Login** — authenticate and receive a signed JWT
+- **Change Password** — update the password of an authenticated user
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## Tech Stack
 
-## Run tests
+| Layer | Technology |
+|---|---|
+| Framework | [NestJS](https://nestjs.com/) |
+| Database | [MongoDB](https://www.mongodb.com/) |
+| ODM | [Mongoose](https://mongoosejs.com/) |
+| Auth Strategy | [Passport.js](http://www.passportjs.org/) |
+| Token | [JWT (JSON Web Token)](https://jwt.io/) |
+| Password Hashing | [argon2](https://www.npmjs.com/package//argon2) |
+| Runtime | [Node.js](https://nodejs.org/) |
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## Prerequisites
 
-# test coverage
-$ npm run test:cov
-```
+Make sure the following are installed on your machine before proceeding:
 
-## Deployment
+- **Node.js** `v24+` — [Download](https://nodejs.org/)
+- **npm** `v11+` (comes with Node.js)
+- **MongoDB** — either:
+  - Local installation: [Download](https://www.mongodb.com/try/download/community)
+  - Cloud instance: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (free tier available)
+- **Git** — [Download](https://git-scm.com/)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+To verify your setup:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+node --version    # v24.x.x or higher
+npm --version     # 11.x.x or higher
+mongod --version  # if using a local MongoDB installation
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Installation
 
-Check out a few resources that may come in handy when working with NestJS:
+### 1. Clone the repository
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+git clone <your-repo-url>
+cd <repo-name>
+```
 
-## Support
+### 2. Install dependencies
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+npm install
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Configuration
+
+The app relies on environment variables for sensitive configuration. Create a `.env` file in the root of the project:
+
+```bash
+cp .env.example .env   # if an example file exists, otherwise create it manually
+```
+
+Then populate `.env` with the following values:
+
+```env
+# ── MongoDB ──────────────────────────────────────────────
+# Local:
+DATABASE_URL=mongodb://localhost:27017/auth-db
+
+# Or MongoDB Atlas:
+# DATABASE_URL=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/auth-db?retryWrites=true&w=majority
+
+# ── JWT ──────────────────────────────────────────────────
+JWT_SECRET_KEY=your_super_secret_key_change_this_in_production
+```
+
+> ⚠️ **Never commit your `.env` file.** It is already in `.gitignore`.
+
+### Environment Variables Reference
+
+| Variable | Description | Example |
+|---|---|---|
+| `DATABASE_URL` | MongoDB connection string | `mongodb://localhost:27017/auth-db` |
+| `JWT_SECRET_KEY` | Secret key used to sign JWTs | `s0m3-r4nd0m-s3cr3t` |
+
+---
+
+## Running the App
+
+### Development (with hot reload)
+
+```bash
+npm run start:dev
+```
+
+### Production
+
+```bash
+npm run build
+npm run start:prod
+```
+
+### Standard start
+
+```bash
+npm run start
+```
+
+Once running, the server will be available at:
+
+```
+http://localhost:3000
+```
+
+---
+
+## API Endpoints
+
+Base URL: `http://localhost:3000`
+
+---
+
+### 1. Sign Up
+
+Register a new user account.
+
+```
+POST /auth/signup
+```
+
+**Request Body**
+
+```json
+{
+  "email": "user@example.com",
+  "name": "example name",
+  "password": "StrongPassword123!"
+}
+```
+
+**Success Response** `201 Created`
+
+```json
+{
+  "success": true
+}
+```
+
+**Error Responses**
+
+| Status | Reason |
+|---|---|
+| `400` | Validation failed (missing or malformed fields) |
+| `409` | Email is already registered |
+
+---
+
+### 2. Login
+
+Authenticate with credentials and receive a JWT.
+
+```
+POST /auth/login
+```
+
+**Request Body**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "StrongPassword123!"
+}
+```
+
+**Success Response** `200 OK`
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+**Error Responses**
+
+| Status | Reason |
+|---|---|
+| `400` | Validation failed |
+| `401` | Invalid email or password |
+
+---
+
+### 3. Change Password
+
+Update the password of the currently authenticated user.
+
+> 🔒 **Requires Authentication** — include the JWT from login in the `Authorization` header.
+
+```
+PATCH /auth/change-password
+```
+
+**Headers**
+
+```
+Authorization: Bearer <your_access_token>
+```
+
+**Request Body**
+
+```json
+{
+  "oldPassword": "StrongPassword123!",
+  "newPassword": "EvenStronger456@"
+}
+```
+
+**Success Response** `200 OK`
+
+```json
+{
+  "message": "Password updated successfully"
+}
+```
+
+**Error Responses**
+
+| Status | Reason |
+|---|---|
+| `400` | Validation failed |
+| `401` | Missing or invalid JWT / wrong current password |
+
+---
+
+## Authentication Flow
+
+```
+[Client]                          [Server]
+   │                                  │
+   │── POST /auth/signup ────────────▶│  Hash password (bcrypt), save user
+   │◀─ 201 { success } ───────────────│
+   │                                  │
+   │── POST /auth/login ─────────────▶│  Validate credentials, sign JWT
+   │◀─ 200 { accessToken } ──────────│
+   │                                  │
+   │── PATCH /auth/change-password ──▶│  Passport JWT Guard validates token
+   │   Authorization: Bearer <token>  │  Verify current password, hash new one
+   │◀─ 200 { message } ──────────────│
+```
+
+The JWT payload typically contains:
+
+```json
+{
+  "sub": "64f1a2b3c4d5e6f7a8b9c0d1",
+  "email": "user@example.com",
+  "iat": 1700000000,
+  "exp": 1700604800
+}
+```
+
+Protected routes use a **Passport JWT Guard** (`@UseGuards(AuthGuard('jwt'))`) that automatically:
+
+1. Extracts the `Bearer` token from the `Authorization` header
+2. Verifies the signature using `JWT_SECRET`
+3. Checks the expiry
+4. Attaches the decoded user to `req.user`
+
+---
+
+## Project Structure
+
+```
+src/
+├── app.module.ts               # Root module
+├── main.ts                     # Entry point, bootstraps the app
+│
+└── auth/
+    ├── auth.module.ts          # Auth module — wires everything together
+    ├── auth.controller.ts      # Route handlers (signup, login, change-password)
+    ├── auth.service.ts         # Business logic
+    │
+    ├── dto/
+    │   ├── signup.dto.ts       # Validation schema for signup
+    │   ├── login.dto.ts        # Validation schema for login
+    │   └── change-password.dto.ts
+    │
+    ├── schemas/
+    │   └── user.schema.ts      # Mongoose User schema & model
+    │
+    └── strategies/
+        └── jwt.strategy.ts     # Passport JWT strategy
+```
+
+---
+
+## Error Handling
+
+The app uses NestJS's built-in exception layer. All errors follow a consistent shape:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Invalid credentials",
+  "error": "Unauthorized"
+}
+```
+
+Validation errors (from class-validator) return a `400` with a detailed `message` array:
+
+```json
+{
+  "statusCode": 400,
+  "message": [
+    "email must be an email",
+    "password must be at least 8 characters"
+  ],
+  "error": "Bad Request"
+}
+```
+
+---
+
+## Testing
+
+### Run unit tests
+
+```bash
+npm run test
+```
+
+### Run end-to-end tests
+
+```bash
+npm run test:e2e
+```
+
+### Run tests with coverage
+
+```bash
+npm run test:cov
+```
+
+---
+
+## Quick Start with cURL
+
+```bash
+# 1. Sign up
+curl -X POST http://localhost:3000/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"MyPassword123!"}'
+
+# 2. Login
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"MyPassword123!"}'
+
+# 3. Change password (replace TOKEN with the accessToken from step 2)
+curl -X PATCH http://localhost:3000/auth/change-password \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer TOKEN" \
+  -d '{"currentPassword":"MyPassword123!","newPassword":"NewPassword456@"}'
+```
+
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.
