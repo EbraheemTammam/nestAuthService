@@ -29,3 +29,10 @@ this is a walk through AI usage throught the implmentation including agents, pro
 
 **response summary:** detailed readme. \
 **opinion and updates:** a very good one, just needed some updates on hashing algorithm used, endpoints details.
+***
+#### while configuring docker:
+**model:** claude \
+**prompt:** write me a multi staged docker file for the app alongside with docker compose and docker ignore for deployment.
+
+**response summary:** detailed docker file, docker compose and docker ignore. \
+**opinion and updates:** a very good one, just needed some updates on hashing algorithm used, endpoints details.

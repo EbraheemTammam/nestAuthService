@@ -1,0 +1,47 @@
+services:
+
+  # ── App ────────────────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: nest-auth-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: mongodb://mongo:27017/auth-db
+      JWT_SECRET: ${JWT_SECRET_KEY}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # ── MongoDB ────────────────────────────────────────────────────────────────
+  mongo:
+    image: mongo:7-jammy
+    container_name: nest-auth-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"           # Remove this line in production
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

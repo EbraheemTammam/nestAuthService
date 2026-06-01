@@ -1,0 +1,36 @@
+# Dependencies — reinstalled inside the image
+node_modules
+
+# Build output — rebuilt inside the image
+dist
+
+# Git
+.git
+.gitignore
+
+# Docker files themselves
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Environment files — secrets must be injected at runtime, never baked in
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / Editor noise
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+
+# Test artifacts
+coverage
+.nyc_output
+
+# CI
+.github
